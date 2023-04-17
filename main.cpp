@@ -1,64 +1,87 @@
 //Samuel Yohannes
 //syyndf@umsystem.edu
 
-#include "queue.h"
 #include <iostream>
-
+#include <stack>
+#include <cstring>
+#include "Header.h"
+#include "queue.h"
 using namespace std;
 
-//this is to create the queue function
-Queue::Queue(int size) {
-    arr = new int[size];
-    capacity = size;
-    front = 0;
-    rear = -1;
-    count = 0;
+int main() {
+
+  //this is question 1
+  cout<< "Question 1:" << endl;
+  string infix;
+  cout << "Enter infix expression : ";
+  cin >> infix;
+  if (isBalanced(infix)) {
+    string postfix = infixToPostfix(infix);
+    cout << "Expression has balanced parentheses." << endl;
+    cout << "Postfix expression: " << postfix << endl;
+  }
+  else{
+  cout << "Parentheses are not balanced, try again." << endl;
 }
+  //this is question 2
+  cout << "Question 2:"<<endl;
+  int size;
+    cout << "Enter the size of the queue: ";
+    cin >> size;
 
-Queue::~Queue() {
-    delete[] arr;
-}
+    Queue q(size);
 
-void Queue::enqueue(int item) {
-    if (isFull()) {
-        cout << "Queue Overflow\n";
-        return;
-    }
+    int choice, item;
+    do {
+        cout << "\nQueue Operations:\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Peek\n";
+        cout << "4. Is Empty?\n";
+        cout << "5. Size\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    rear = (rear + 1) % capacity;
-    arr[rear] = item;
-    count++;
-}
+        switch (choice) {
+        case 1:
+            cout << "Enter the element to enqueue: ";
+            cin >> item;
+            q.enqueue(item);
+            break;
 
-int Queue::dequeue() {
-    if (isEmpty()) {
-        cout << "Queue Underflow\n";
-        return -1;
-    }
+        case 2:
+            item = q.dequeue();
+            if (item != -1) {
+                cout << "Dequeued element: " << item << endl;
+            }
+            break;
 
-    int item = arr[front];
-    front = (front + 1) % capacity;
-    count--;
-    return item;
-}
+        case 3:
+            item = q.peek();
+            if (item != -1) {
+                cout << "Front element: " << item << endl;
+            }
+            break;
 
-int Queue::peek() {
-    if (isEmpty()) {
-        cout << "Queue is empty\n";
-        return -1;
-    }
+        case 4:
+            if (q.isEmpty()) {
+                cout << "Queue is empty\n";
+            } else {
+                cout << "Queue is not empty\n";
+            }
+            break;
 
-    return arr[front];
-}
+        case 5:
+            cout << "Queue size: " << q.size() << endl;
+            break;
 
-bool Queue::isEmpty() {
-    return count == 0;
-}
+        case 0:
+            break;
 
-bool Queue::isFull() {
-    return count == capacity;
-}
-
-int Queue::size() {
-    return count;
+        default:
+            cout << "Invalid choice\n";
+        }
+    } while (choice != 0);
+    return 0;
 }
